@@ -43,16 +43,9 @@ jobs:
       - run: terraform graph | dot -Tsvg > ../../../graph.svg
         working-directory: ./terraform-provider-aws/examples/two-tier
 
-      - name: comment PR
-        uses: machine-learning-apps/pr-comment@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          path: README.md
 
       - name: commit
         run: |
-
           git add README.md
           if ! git diff --cached --quiet --exit-code
           then
