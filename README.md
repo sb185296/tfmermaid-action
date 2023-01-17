@@ -1,54 +1,5 @@
-# tfmermaid-action
-
-This Github Action converts your output of [Terraform graph](https://www.terraform.io/cli/commands/graph) to [Mermaid's syntax](https://mermaid-js.github.io/mermaid/).
-
-## Usage
-
-See [action.yml](action.yml)
-
-### .github/workflows/tfmermaid.yml
-
-Convert the output of `terraform graph` to Mermaid's syntax and embed it in the `README.md` file.
-
-```yaml
-- uses: actions/checkout@v3
-- uses: asannou/tfmermaid-action@v1
-  with:
-    file: README.md
-- name: commit
-  run: |
-    git add README.md
-    if ! git diff --cached --quiet --exit-code
-    then
-      git config user.name "github-actions[bot]"
-      git config user.email "github-actions[bot]@users.noreply.github.com"
-      git commit -m "generated"
-      git push
-    fi
-```
-
-### README.md
-
-The converted output is embedded inside the mermaid code block commented `%%tfmermaid`.
-
-~~~
 ```mermaid
 %%tfmermaid
-```
-~~~
-
-## Examples
-
-### [terraform-provider-aws/examples/two-tier](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples/two-tier)
-
-#### Before
-
-![terraform graph](graph.svg)
-
-#### After
-
-```mermaid
-%%tfmermaid:terraform-provider-aws/examples/two-tier
 %%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
 flowchart LR
 classDef r fill:#5c4ee5,stroke:#444,color:#fff
@@ -57,1431 +8,341 @@ classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
 classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
 classDef ps fill:none,stroke:none
 classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["ELB Classic"]
-n1["aws_elb.web"]:::r
+subgraph "n0"["Network"]
+n1["azurerm_application_gateway.<br/>appgw-primary"]:::r
+n2["azurerm_bastion_host.<br/>host-primary"]:::r
+n3["azurerm_network_ddos_protection_plan.<br/>primary"]:::r
+n4["azurerm_network_interface.<br/>linux-nic-primary"]:::r
+n5["azurerm_network_interface.<br/>windows-nic-primary"]:::r
+n6["azurerm_network_security_group.<br/>aks-primary"]:::r
+n7["azurerm_network_security_group.<br/>appgw-primary"]:::r
+n8["azurerm_network_security_group.<br/>primary"]:::r
+n9["azurerm_network_security_group.<br/>redis-primary"]:::r
+na["azurerm_network_security_group.<br/>vm-primary"]:::r
+nb["azurerm_network_security_rule.<br/>ag_nsg_rule_inbound2_pri"]:::r
+nc["azurerm_network_security_rule.<br/>ag_nsg_rule_inbound_pri"]:::r
+nd["azurerm_network_security_rule.<br/>allow-all-aks-pri"]:::r
+ne["azurerm_network_security_rule.<br/>allow_geodr_inbound_pri"]:::r
+nf["azurerm_network_security_rule.<br/>allow_geodr_outbound_pri"]:::r
+ng["azurerm_network_security_rule.<br/>allow_health_probe_inbound_pri"]:::r
+nh["azurerm_network_security_rule.<br/>allow_management_inbound_pri"]:::r
+ni["azurerm_network_security_rule.<br/>allow_management_outbound_pri"]:::r
+nj["azurerm_network_security_rule.<br/>allow_misubnet_inbound_pri"]:::r
+nk["azurerm_network_security_rule.<br/>allow_misubnet_outbound_pri"]:::r
+nl["azurerm_network_security_rule.<br/>allow_redirect_inbound_pri"]:::r
+nm["azurerm_network_security_rule.<br/>allow_redirect_outbound_pri"]:::r
+nn["azurerm_network_security_rule.<br/>allow_tds_inbound_pri"]:::r
+no["azurerm_network_security_rule.<br/>deny_all_aks_inbound_pri"]:::r
+np["azurerm_network_security_rule.<br/>deny_all_inbound_pri"]:::r
+nq["azurerm_network_security_rule.<br/>deny_all_inbound_redis_pri"]:::r
+nr["azurerm_network_security_rule.<br/>deny_all_inbound_vm_pri"]:::r
+ns["azurerm_network_security_rule.<br/>deny_all_mssql_inbound_pri"]:::r
+nt["azurerm_network_security_rule.<br/>deny_all_outbound_pri"]:::r
+nu["azurerm_network_security_rule.<br/>nlb_all_inbound_pri"]:::r
+nv["azurerm_network_security_rule.<br/>nlb_rule_inbound_pri"]:::r
+nw["azurerm_network_security_rule.<br/>nlb_rule_inbound_redis_pri"]:::r
+nx["azurerm_network_security_rule.<br/>nlb_rule_inbound_vm_pri"]:::r
+ny["azurerm_network_security_rule.<br/>rule_inbound_pri"]:::r
+nz["azurerm_network_security_rule.<br/>rule_inbound_redis_pri"]:::r
+n10["azurerm_network_security_rule.<br/>rule_inbound_vm_pri"]:::r
+n11["azurerm_public_ip.ip-primary"]:::r
+n12["azurerm_public_ip.pip-primary"]:::r
+n13["azurerm_route_table.primary"]:::r
+n14["azurerm_subnet.<br/>aks-subnet-primary"]:::r
+n15["azurerm_subnet.<br/>appgw-privatelink-subnet-primary"]:::r
+n16["azurerm_subnet.<br/>appgw-subnet-primary"]:::r
+n17["azurerm_subnet.<br/>bastion-subnet-primary"]:::r
+n18["azurerm_subnet.<br/>redis-subnet-primary"]:::r
+n19["azurerm_subnet.<br/>sqlmi-subnet-primary"]:::r
+n1a["azurerm_subnet.<br/>vm-subnet-primary"]:::r
+n1b["azurerm_subnet_network_security_group_association.<br/>primary"]:::r
+n1c["azurerm_subnet_network_security_group_association.<br/>subnet_nsg_appgw_pri"]:::r
+n1d["azurerm_subnet_network_security_group_association.<br/>subnet_nsg_redis_pri"]:::r
+n1e["azurerm_subnet_network_security_group_association.<br/>subnet_nsg_vm_pri"]:::r
+n1f["azurerm_subnet_route_table_association.<br/>primary"]:::r
+n1g["azurerm_virtual_network.<br/>primary"]:::r
 end
 class n0 cs
-subgraph "n2"["EC2 (Elastic Compute Cloud)"]
-n3["aws_instance.web"]:::r
-n4["aws_key_pair.auth"]:::r
+subgraph "n1h"["Application Insights"]
+n1i["azurerm_application_insights.<br/>application_insights_primary"]:::r
 end
-class n2 cs
-subgraph "n5"["VPC (Virtual Private Cloud)"]
-n6["aws_internet_gateway.default"]:::r
-n7["aws_route.internet_access"]:::r
-n8["aws_security_group.default"]:::r
-n9["aws_security_group.elb"]:::r
-na["aws_subnet.default"]:::r
-nb["aws_vpc.default"]:::r
-end
-class n5 cs
-subgraph "nc"["Output Values"]
-nd(["output.address"]):::v
-end
-class nc vs
-subgraph "ne"["Input Variables"]
-nf(["var.aws_amis"]):::v
-ng(["var.aws_region"]):::v
-nh(["var.key_name"]):::v
-ni(["var.public_key_path"]):::v
-end
-class ne vs
-n3-->n1
-n9-->n1
-n4-->n3
-n8-->n3
-na-->n3
-nf--->n3
-nb-->n6
-nh--->n4
-ni--->n4
-n6-->n7
-nb-->n8
-nb-->n9
-nb-->na
-n1--->nd
-```
-
-### [terraform-provider-aws/examples/ecs-alb](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples/ecs-alb)
-
-```yaml
-- uses: asannou/tfmermaid-action@v1
-  with:
-    exclude: var,output
-```
-
-```mermaid
-%%tfmermaid:terraform-provider-aws/examples/ecs-alb
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["ELB (Elastic Load Balancing)"]
-n1["aws_alb.main"]:::r
-n2["aws_alb_listener.front_end"]:::r
-n3["aws_alb_target_group.test"]:::r
-end
-class n0 cs
-subgraph "n4"["Auto Scaling"]
-n5["aws_autoscaling_group.app"]:::r
-n6["aws_launch_configuration.app"]:::r
-end
-class n4 cs
-subgraph "n7"["CloudWatch Logs"]
-n8["aws_cloudwatch_log_group.app"]:::r
-n9["aws_cloudwatch_log_group.ecs"]:::r
-end
-class n7 cs
-subgraph "na"["ECS (Elastic Container)"]
-nb["aws_ecs_cluster.main"]:::r
-nc["aws_ecs_service.test"]:::r
-nd["aws_ecs_task_definition.ghost"]:::r
-end
-class na cs
-subgraph "ne"["IAM (Identity & Access Management)"]
-nf["aws_iam_instance_profile.app"]:::r
-ng["aws_iam_role.app_instance"]:::r
-nh["aws_iam_role.ecs_service"]:::r
-ni["aws_iam_role_policy.<br/>ecs_service"]:::r
-nj["aws_iam_role_policy.instance"]:::r
-end
-class ne cs
-subgraph "nk"["VPC (Virtual Private Cloud)"]
-nl["aws_internet_gateway.gw"]:::r
-nm["aws_route_table.r"]:::r
-nn["aws_route_table_association.a"]:::r
-no["aws_security_group.<br/>instance_sg"]:::r
-np["aws_security_group.lb_sg"]:::r
-nq["aws_subnet.main"]:::r
-nr["aws_vpc.main"]:::r
-end
-class nk cs
-subgraph "ns"["EC2 (Elastic Compute Cloud)"]
-nt{{"data.aws_ami.stable_coreos"}}:::r
-nu{{"data.<br/>aws_availability_zones.<br/>available"}}:::r
-end
-class ns cs
-np-->n1
-nq-->n1
-n1-->n2
-n3-->n2
-nr-->n3
-n6-->n5
-nq-->n5
-n2-->nc
-nb-->nc
-nd-->nc
-ni-->nc
-n8-->nd
-ng-->nf
-nh-->ni
-n8-->nj
-n9-->nj
-ng-->nj
-nr-->nl
-n9-->n6
-nb-->n6
-nf-->n6
-no-->n6
-nt-->n6
-nl-->nm
-nm-->nn
-nq-->nn
-np-->no
-nr-->np
-nr-->nq
-nu-->nq
-```
-
-### [terraform-provider-aws/examples/events/kinesis](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples/events/kinesis)
-
-```yaml
-- uses: asannou/tfmermaid-action@v1
-  with:
-    orientation: RL
-    arrow-direction: forward
-    exclude: _orphan
-```
-
-```mermaid
-%%tfmermaid:terraform-provider-aws/examples/events/kinesis
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart RL
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["EventBridge"]
-n1["aws_cloudwatch_event_rule.foo"]:::r
-n2["aws_cloudwatch_event_target.<br/>foobar"]:::r
-end
-class n0 cs
-subgraph "n3"["IAM (Identity & Access Management)"]
-n4["aws_iam_role.role"]:::r
-n5["aws_iam_role_policy.policy"]:::r
-end
-class n3 cs
-subgraph "n6"["Input Variables"]
-n7(["var.rule_name"]):::v
-n8(["var.target_name"]):::v
-n9(["var.iam_role_name"]):::v
-na(["var.stream_name"]):::v
-end
-class n6 vs
-subgraph "nb"["Kinesis"]
-nc["aws_kinesis_stream.foo"]:::r
-end
-class nb cs
-subgraph "nd"["Output Values"]
-ne(["output.kinesis_stream_arn"]):::v
-nf(["output.rule_arn"]):::v
-end
-class nd vs
-n1-->n4
-n1--->n7
-n2-->n1
-n2-->nc
-n2--->n8
-n4--->n9
-n5-->n4
-nc--->na
-ne--->nc
-nf--->n1
-```
-
-### [terraform-provider-aws/examples/lambda-file-systems](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples/lambda-file-systems)
-
-```yaml
-- uses: asannou/tfmermaid-action@v1
-  with:
-    exclude: _orphan
-```
-
-```mermaid
-%%tfmermaid:terraform-provider-aws/examples/lambda-file-systems
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["VPC (Virtual Private Cloud)"]
-n1["aws_default_security_group.<br/>default"]:::r
-n2["aws_default_vpc.default"]:::r
-n3["aws_default_subnet.<br/>default_az1"]:::r
-n4["aws_default_subnet.<br/>default_az2"]:::r
-end
-class n0 cs
-subgraph "n5"["EC2 (Elastic Compute Cloud)"]
-n6{{"data.<br/>aws_availability_zones.<br/>available"}}:::r
-end
-class n5 cs
-subgraph "n7"["EFS (Elastic File System)"]
-n8["aws_efs_access_point.<br/>access_point_lambda"]:::r
-n9["aws_efs_file_system.<br/>efs_for_lambda"]:::r
-na["aws_efs_mount_target.<br/>mount_target_az1"]:::r
-nb["aws_efs_mount_target.<br/>mount_target_az2"]:::r
-end
-class n7 cs
-subgraph "nc"["IAM (Identity & Access Management)"]
-nd["aws_iam_role.<br/>iam_role_for_lambda"]:::r
-ne{{"data.<br/>aws_iam_policy_document.<br/>assume_role_policy"}}:::r
-nf["aws_iam_role_policy_attachment.<br/>AWSLambdaVPCAccessExecutionRole-attach"]:::r
-ng{{"data.<br/>aws_iam_policy.<br/>AWSLambdaVPCAccessExecutionRole"}}:::r
-nh["aws_iam_role_policy_attachment.<br/>AmazonElasticFileSystemClientFullAccess-attach"]:::r
-ni{{"data.<br/>aws_iam_policy.<br/>AmazonElasticFileSystemClientFullAccess"}}:::r
-end
-class nc cs
-subgraph "nj"["Lambda"]
-nk["aws_lambda_function.<br/>example_lambda"]:::r
-end
-class nj cs
-nl{{"data.archive_file.zip"}}:::r
-subgraph "nm"["Meta Data Sources"]
-nn{{"data.aws_partition.current"}}:::r
-end
-class nm cs
-subgraph "no"["Output Values"]
-np(["output.lambda"]):::v
-end
-class no vs
-n2-->n1
-n6-->n3
-n6-->n4
-n9-->n8
-n1-->na
-n3-->na
-n9-->na
-n1-->nb
-n4-->nb
-n9-->nb
-ne-->nd
-nd-->nf
-ng-->nf
-nd-->nh
-ni-->nh
-n8-->nk
-na-->nk
-nb-->nk
-nd-->nk
-nl-->nk
-nn-->ng
-nn-->ni
-nk--->np
-```
-
-### [terraform-provider-aws/examples/networking](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples/networking)
-
-```mermaid
-%%tfmermaid:terraform-provider-aws/examples/networking
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["module.us-east-1"]
-subgraph "n0_padding"[" "]
-subgraph "n1"["VPC (Virtual Private Cloud)"]
-n2["aws_internet_gateway.main"]:::r
-n3["aws_security_group.<br/>internal-all"]:::r
-n4["aws_security_group.region"]:::r
-n5["aws_vpc.main"]:::r
-end
-class n1 cs
-subgraph "n6"["EC2 (Elastic Compute Cloud)"]
-n7{{"data.<br/>aws_availability_zones.<br/>all"}}:::r
-end
-class n6 cs
-subgraph "n8"["module.primary_subnet"]
-subgraph "n8_padding"[" "]
-subgraph "n9"["VPC (Virtual Private Cloud)"]
-na["aws_route_table.main"]:::r
-nb["aws_route_table_association.<br/>main"]:::r
-nc["aws_security_group.az"]:::r
-nd["aws_subnet.main"]:::r
-ne{{"data.aws_vpc.target"}}:::r
-end
-class n9 cs
-subgraph "nf"["EC2 (Elastic Compute Cloud)"]
-ng{{"data.<br/>aws_availability_zone.<br/>target"}}:::r
-end
-class nf cs
-subgraph "nh"["Input Variables"]
-ni(["var.vpc_id"]):::v
-nj(["var.az_numbers"]):::v
-nk(["var.availability_zone"]):::v
-end
-class nh vs
-subgraph "nl"["Output Values"]
-nm(["output.subnet_id"]):::v
-end
-class nl vs
-end
-class n8_padding ps
-end
-class n8 ms
-subgraph "nn"["module.secondary_subnet"]
-subgraph "nn_padding"[" "]
-subgraph "no"["VPC (Virtual Private Cloud)"]
-np["aws_route_table.main"]:::r
-nq["aws_route_table_association.<br/>main"]:::r
-nr["aws_security_group.az"]:::r
-ns["aws_subnet.main"]:::r
-nt{{"data.aws_vpc.target"}}:::r
-end
-class no cs
-subgraph "nu"["EC2 (Elastic Compute Cloud)"]
-nv{{"data.<br/>aws_availability_zone.<br/>target"}}:::r
-end
-class nu cs
-subgraph "nw"["Input Variables"]
-nx(["var.vpc_id"]):::v
-ny(["var.az_numbers"]):::v
-nz(["var.availability_zone"]):::v
-end
-class nw vs
-subgraph "n10"["Output Values"]
-n11(["output.subnet_id"]):::v
-end
-class n10 vs
-end
-class nn_padding ps
-end
-class nn ms
-subgraph "n12"["Input Variables"]
-n13(["var.base_cidr_block"]):::v
-n14(["var.region_numbers"]):::v
-n15(["var.region"]):::v
-end
-class n12 vs
-subgraph "n16"["Output Values"]
-n17(["output.primary_subnet_id"]):::v
-n18(["output.secondary_subnet_id"]):::v
-n19(["output.vpc_id"]):::v
-end
-class n16 vs
-end
-class n0_padding ps
-end
-class n0 ms
-subgraph "n1a"["module.us-west-2"]
-subgraph "n1a_padding"[" "]
-subgraph "n1b"["VPC (Virtual Private Cloud)"]
-n1c["aws_internet_gateway.main"]:::r
-n1d["aws_security_group.<br/>internal-all"]:::r
-n1e["aws_security_group.region"]:::r
-n1f["aws_vpc.main"]:::r
-end
-class n1b cs
-subgraph "n1g"["EC2 (Elastic Compute Cloud)"]
-n1h{{"data.<br/>aws_availability_zones.<br/>all"}}:::r
-end
-class n1g cs
-subgraph "n1i"["module.primary_subnet"]
-subgraph "n1i_padding"[" "]
-subgraph "n1j"["VPC (Virtual Private Cloud)"]
-n1k["aws_route_table.main"]:::r
-n1l["aws_route_table_association.<br/>main"]:::r
-n1m["aws_security_group.az"]:::r
-n1n["aws_subnet.main"]:::r
-n1o{{"data.aws_vpc.target"}}:::r
+class n1h cs
+subgraph "n1j"["Dev Test"]
+n1k["azurerm_dev_test_global_vm_shutdown_schedule.<br/>schedule-linux-vm-primary"]:::r
+n1l["azurerm_dev_test_global_vm_shutdown_schedule.<br/>schedule-windows-vm-primary"]:::r
 end
 class n1j cs
-subgraph "n1p"["EC2 (Elastic Compute Cloud)"]
-n1q{{"data.<br/>aws_availability_zone.<br/>target"}}:::r
+subgraph "n1m"["Container"]
+n1n["azurerm_kubernetes_cluster.<br/>aks-primary"]:::r
+n1o["azurerm_kubernetes_cluster_node_pool.ccm<br/>[0]"]:::r
+n1p["azurerm_kubernetes_cluster_node_pool.<br/>gateway"]:::r
+n1q["azurerm_kubernetes_cluster_node_pool.<br/>hq-app"]:::r
+n1r["azurerm_kubernetes_cluster_node_pool.<br/>hq-dms"]:::r
+n1s["azurerm_kubernetes_cluster_node_pool.<br/>mf"]:::r
+n1t["azurerm_kubernetes_cluster_node_pool.<br/>rabbithq"]:::r
+n1u["azurerm_kubernetes_cluster_node_pool.<br/>rabbitmf"]:::r
 end
-class n1p cs
-subgraph "n1r"["Input Variables"]
-n1s(["var.vpc_id"]):::v
-n1t(["var.az_numbers"]):::v
-n1u(["var.availability_zone"]):::v
+class n1m cs
+subgraph "n1v"["Compute"]
+n1w["azurerm_linux_virtual_machine.<br/>linux-vm-primary"]:::r
+n1x["azurerm_virtual_machine_extension.<br/>bootstrap-linux-vm-primary"]:::r
+n1y["azurerm_virtual_machine_extension.<br/>bootstrap-windows-vm-primary"]:::r
+n1z["azurerm_windows_virtual_machine.<br/>windows-vm-primary"]:::r
 end
-class n1r vs
-subgraph "n1v"["Output Values"]
-n1w(["output.subnet_id"]):::v
+class n1v cs
+subgraph "n20"["Log Analytics"]
+n21["azurerm_log_analytics_solution.<br/>log_analytics_solution_primary"]:::r
+n22["azurerm_log_analytics_workspace.<br/>log_analytics_workspace_primary"]:::r
 end
-class n1v vs
+class n20 cs
+subgraph "n23"["Monitor"]
+n24["azurerm_monitor_diagnostic_setting.<br/>log_analytics_diagnostic_appgw_primary"]:::r
+n25["azurerm_monitor_diagnostic_setting.<br/>log_analytics_diagnostic_mssql_hq_primary"]:::r
+n26["azurerm_monitor_diagnostic_setting.<br/>log_analytics_diagnostic_mssql_mf_primary"]:::r
 end
-class n1i_padding ps
+class n23 cs
+subgraph "n27"["Database"]
+n28["azurerm_mssql_managed_instance.<br/>hq-primary"]:::r
+n29["azurerm_mssql_managed_instance.<br/>mf-primary"]:::r
 end
-class n1i ms
-subgraph "n1x"["module.secondary_subnet"]
-subgraph "n1x_padding"[" "]
-subgraph "n1y"["VPC (Virtual Private Cloud)"]
-n1z["aws_route_table.main"]:::r
-n20["aws_route_table_association.<br/>main"]:::r
-n21["aws_security_group.az"]:::r
-n22["aws_subnet.main"]:::r
-n23{{"data.aws_vpc.target"}}:::r
+class n27 cs
+subgraph "n2a"["Redis"]
+n2b["azurerm_redis_cache.<br/>redis-primary"]:::r
 end
-class n1y cs
-subgraph "n24"["EC2 (Elastic Compute Cloud)"]
-n25{{"data.<br/>aws_availability_zone.<br/>target"}}:::r
+class n2a cs
+subgraph "n2c"["Base"]
+n2d{{"data.<br/>azurerm_resource_group.<br/>primary"}}:::r
 end
-class n24 cs
-subgraph "n26"["Input Variables"]
-n27(["var.vpc_id"]):::v
-n28(["var.az_numbers"]):::v
-n29(["var.availability_zone"]):::v
+class n2c cs
+n2e{{"data.<br/>template_file.<br/>file-windows-vm-primary"}}:::r
+n2f[/"provider<br/>[&quot;registry.terraform.io/hashicorp/azurerm&quot;]"\]
+n2g[/"provider<br/>[&quot;registry.terraform.io/hashicorp/template&quot;]"\]
+n2h[/"provider<br/>[&quot;registry.terraform.io/hashicorp/tls&quot;]"\]
+n2i["tls_private_key.ssh"]:::r
+subgraph "n2j"["Input Variables"]
+n2k(["var.client_id"]):::v
+n2l(["var.client_secret"]):::v
+n2m(["var.customer"]):::v
+n2n(["var.location"]):::v
+n2o(["var.prefix"]):::v
+n2p(["var.sql_hq_password"]):::v
+n2q(["var.sql_mf_password"]):::v
+n2r(["var.<br/>subnet_address_prefix_aks_primary"]):::v
+n2s(["var.<br/>subnet_address_prefix_appgw_primary"]):::v
+n2t(["var.<br/>subnet_address_prefix_appgw_privatelink_primary"]):::v
+n2u(["var.<br/>subnet_address_prefix_bastion_primary"]):::v
+n2v(["var.<br/>subnet_address_prefix_mmsql_primary"]):::v
+n2w(["var.<br/>subnet_address_prefix_redis_primary"]):::v
+n2x(["var.<br/>subnet_address_prefix_vm_primary"]):::v
+n2y(["var.tags"]):::v
+n2z(["var.<br/>virtual_network_address_prefix_primary"]):::v
+n30(["var.waf_configuration"]):::v
+n31(["var.waf_enabled"]):::v
 end
-class n26 vs
-subgraph "n2a"["Output Values"]
-n2b(["output.subnet_id"]):::v
-end
-class n2a vs
-end
-class n1x_padding ps
-end
-class n1x ms
-subgraph "n2c"["Input Variables"]
-n2d(["var.base_cidr_block"]):::v
-n2e(["var.region_numbers"]):::v
-n2f(["var.region"]):::v
-end
-class n2c vs
-subgraph "n2g"["Output Values"]
-n2h(["output.primary_subnet_id"]):::v
-n2i(["output.secondary_subnet_id"]):::v
-n2j(["output.vpc_id"]):::v
-end
-class n2g vs
-end
-class n1a_padding ps
-end
-class n1a ms
-subgraph "n2k"["Input Variables"]
-n2l(["var.base_cidr_block"]):::v
-end
-class n2k vs
-n5-->n2
-n5-->n3
-n5-->n4
-n13-->n5
-n14-->n5
-ni-->na
-na-->nb
-nd-->nb
-nd-->nc
-ng-->nd
-ne-->nd
-nj-->nd
-nk-->ng
-ni-->ne
-nd-->nm
-n7-->nk
-n5-->ni
-nx-->np
-np-->nq
-ns-->nq
-ns-->nr
-nv-->ns
-nt-->ns
-ny-->ns
-nz-->nv
-nx-->nt
-ns-->n11
-n7-->nz
-n5-->nx
-nm-->n17
-n11-->n18
-n5-->n19
-n2l--->n13
-n1f-->n1c
-n1f-->n1d
-n1f-->n1e
-n2d-->n1f
-n2e-->n1f
-n1s-->n1k
-n1k-->n1l
-n1n-->n1l
-n1n-->n1m
+class n2j vs
+n32(["local.<br/>backend_address_pool_name"]):::v
+n33(["local.<br/>frontend_ip_configuration_name"]):::v
+n34(["local.frontend_port_name"]):::v
+n35(["local.http_setting_name"]):::v
+n36(["local.listener_name"]):::v
+n37(["local.<br/>request_routing_rule_name"]):::v
+n38(["local.sku_name"]):::v
+n39(["local.sku_tier"]):::v
+n3a(["local.gateway"]):::v
+n3b(["local.hq-app"]):::v
+n3c(["local.hq-dms"]):::v
+n3d(["local.mf"]):::v
+n3e(["local.rabbithq"]):::v
+n3f(["local.rabbitmf"]):::v
+n3g(["local.<br/>redirect_configuration_name"]):::v
+n1-->n11
+n1-->n15
+n1-->n1c
+n1-->n32
+n1-->n33
+n1-->n34
+n1-->n35
+n1-->n36
+n1-->n37
+n1-->n38
+n1-->n39
+n1--->n30
+n1i-->n22
+n2-->n12
+n2-->n17
+n1k-->n1w
+n1l-->n1z
+n1n-->n1
+n1n-->n21
+n1n-->n14
+n1n-->n2i
+n1n--->n2k
+n1n--->n2l
+n1o-->n2f
+n1p-->n1n
+n1p-->n3a
 n1q-->n1n
-n1o-->n1n
+n1q-->n3b
+n1r-->n1n
+n1r-->n3c
+n1s-->n1n
+n1s-->n3d
 n1t-->n1n
-n1u-->n1q
-n1s-->n1o
-n1n-->n1w
-n1h-->n1u
-n1f-->n1s
-n27-->n1z
-n1z-->n20
-n22-->n20
-n22-->n21
+n1t-->n3e
+n1u-->n1n
+n1u-->n3f
+n1w-->n4
+n1w-->n5
+n21-->n22
+n22-->n2d
+n22--->n2y
+n24-->n1
+n24-->n22
 n25-->n22
-n23-->n22
-n28-->n22
-n29-->n25
-n27-->n23
-n22-->n2b
-n1h-->n29
-n1f-->n27
-n1w-->n2h
-n2b-->n2i
-n1f-->n2j
-n2l--->n2d
-```
-
-### [terraform-provider-aws/examples/rds](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples/rds)
-
-```mermaid
-%%tfmermaid:terraform-provider-aws/examples/rds
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["RDS (Relational Database)"]
-n1["aws_db_instance.default"]:::r
-n2["aws_db_subnet_group.default"]:::r
-end
-class n0 cs
-subgraph "n3"["VPC (Virtual Private Cloud)"]
-n4["aws_security_group.default"]:::r
-n5["aws_subnet.subnet_1"]:::r
-n6["aws_subnet.subnet_2"]:::r
-end
-class n3 cs
-subgraph "n7"["Output Values"]
-n8(["output.db_instance_address"]):::v
-n9(["output.db_instance_id"]):::v
-na(["output.subnet_group"]):::v
-end
-class n7 vs
-subgraph "nb"["Input Variables"]
-nc(["var.aws_region"]):::v
-nd(["var.az_1"]):::v
-ne(["var.az_2"]):::v
-nf(["var.cidr_blocks"]):::v
-ng(["var.db_name"]):::v
-nh(["var.engine"]):::v
-ni(["var.engine_version"]):::v
-nj(["var.identifier"]):::v
-nk(["var.instance_class"]):::v
-nl(["var.password"]):::v
-nm(["var.sg_name"]):::v
-nn(["var.storage"]):::v
-no(["var.subnet_1_cidr"]):::v
-np(["var.subnet_2_cidr"]):::v
-nq(["var.username"]):::v
-nr(["var.vpc_id"]):::v
-end
-class nb vs
-n2-->n1
-n4-->n1
-ng--->n1
-nh--->n1
-ni--->n1
-nj--->n1
-nk--->n1
-nl--->n1
-nn--->n1
-nq--->n1
-n5-->n2
-n6-->n2
-nf--->n4
-nm--->n4
-nr--->n4
-nd--->n5
-no--->n5
-nr--->n5
-ne--->n6
-np--->n6
-nr--->n6
-n1--->n8
-n1--->n9
-n2--->na
-```
-
-### [terraform-provider-aws/examples/s3-api-gateway-integration](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples/s3-api-gateway-integration)
-
-```yaml
-- uses: asannou/tfmermaid-action@v1
-  with:
-    exclude: _orphan
-```
-
-```mermaid
-%%tfmermaid:terraform-provider-aws/examples/s3-api-gateway-integration
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["API Gateway"]
-n1["aws_api_gateway_deployment.<br/>S3APIDeployment"]:::r
-n2["aws_api_gateway_integration.<br/>S3Integration"]:::r
-n3["aws_api_gateway_method.<br/>GetBuckets"]:::r
-n4["aws_api_gateway_integration_response.<br/>IntegrationResponse200"]:::r
-n5["aws_api_gateway_method_response.<br/>Status200"]:::r
-n6["aws_api_gateway_integration_response.<br/>IntegrationResponse400"]:::r
-n7["aws_api_gateway_method_response.<br/>Status400"]:::r
-n8["aws_api_gateway_integration_response.<br/>IntegrationResponse500"]:::r
-n9["aws_api_gateway_method_response.<br/>Status500"]:::r
-na["aws_api_gateway_rest_api.MyS3"]:::r
-nb["aws_api_gateway_resource.<br/>Folder"]:::r
-nc["aws_api_gateway_resource.Item"]:::r
-end
-class n0 cs
-subgraph "nd"["IAM (Identity & Access Management)"]
-ne["aws_iam_role.<br/>s3_api_gateway_role"]:::r
-nf["aws_iam_policy.s3_policy"]:::r
-ng["aws_iam_role_policy_attachment.<br/>s3_policy_attach"]:::r
-end
-class nd cs
-n2-->n1
-n3-->n2
-ne-->n2
-n2-->n4
-n5-->n4
-n7-->n6
-n9-->n8
-na-->n3
-n3-->n5
-n2-->n7
-n2-->n9
-na-->nb
-nb-->nc
-nf-->ng
-ne-->ng
-```
-
-### [terraform-provider-aws/examples/s3-cross-account-access](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples/s3-cross-account-access)
-
-```yaml
-- uses: asannou/tfmermaid-action@v1
-  with:
-    include: provider
-```
-
-```mermaid
-%%tfmermaid:terraform-provider-aws/examples/s3-cross-account-access
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["S3 (Simple Storage)"]
-n1["aws_s3_bucket.prod"]:::r
-n2["aws_s3_bucket_acl.<br/>prod_bucket_acl"]:::r
-n3["aws_s3_bucket_policy.<br/>prod_bucket_policy"]:::r
-n4["aws_s3_object.prod"]:::r
-n5["aws_s3_object.test"]:::r
-end
-class n0 cs
-n6[/"provider<br/>[&quot;registry.terraform.io/hashicorp/aws&quot;]"\]
-n7[/"provider<br/>[&quot;registry.terraform.io/hashicorp/aws&quot;].<br/>prod"\]
-n8[/"provider<br/>[&quot;registry.terraform.io/hashicorp/aws&quot;].<br/>test"\]
-subgraph "n9"["Input Variables"]
-na(["var.bucket_name"]):::v
-nb(["var.prod_access_key"]):::v
-nc(["var.prod_secret_key"]):::v
-nd(["var.test_access_key"]):::v
-ne(["var.test_account_id"]):::v
-nf(["var.test_secret_key"]):::v
-end
-class n9 vs
-n7-->n1
-na--->n1
-n1-->n2
-n6-->n2
-n1-->n3
-n6-->n3
-ne--->n3
-n3-->n4
-n3-->n5
-n8-->n5
-n2-->n6
-n3-->n6
-n4-->n7
-nb--->n7
-nc--->n7
-n5-->n8
-nd--->n8
-nf--->n8
-```
-
-### [terraform-provider-aws/examples/sagemaker](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples/sagemaker)
-
-```mermaid
-%%tfmermaid:terraform-provider-aws/examples/sagemaker
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["IAM (Identity & Access Management)"]
-n1["aws_iam_policy.foo"]:::r
-n2["aws_iam_role.foo"]:::r
-n3["aws_iam_role_policy_attachment.<br/>foo"]:::r
-n4{{"data.<br/>aws_iam_policy_document.<br/>assume_role"}}:::r
-n5{{"data.<br/>aws_iam_policy_document.<br/>foo"}}:::r
-end
-class n0 cs
-subgraph "n6"["S3 (Simple Storage)"]
-n7["aws_s3_bucket.foo"]:::r
-n8["aws_s3_bucket_acl.<br/>foo_bucket_acl"]:::r
-n9["aws_s3_object.object"]:::r
-end
-class n6 cs
-subgraph "na"["SageMaker"]
-nb["aws_sagemaker_endpoint.foo"]:::r
-nc["aws_sagemaker_endpoint_configuration.<br/>foo"]:::r
-nd["aws_sagemaker_model.foo"]:::r
-end
-class na cs
-subgraph "ne"["STS (Security Token)"]
-nf{{"data.<br/>aws_caller_identity.<br/>current"}}:::r
-end
-class ne cs
-subgraph "ng"["Meta Data Sources"]
-nh{{"data.aws_region.current"}}:::r
-end
-class ng cs
-ni["random_integer.bucket_suffix"]:::r
-n5-->n1
-n4-->n2
-n1-->n3
-n2-->n3
-ni-->n7
-n7-->n8
-n7-->n9
-nc-->nb
-nd-->nc
-n2-->nd
-n7-->nd
-nf-->nd
-nh-->nd
-n7-->n5
-```
-
-### [terraform-provider-aws/examples/transit-gateway-cross-account-peering-attachment](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples/transit-gateway-cross-account-peering-attachment)
-
-```yaml
-- uses: asannou/tfmermaid-action@v1
-  with:
-    include: provider
-```
-
-```mermaid
-%%tfmermaid:terraform-provider-aws/examples/transit-gateway-cross-account-peering-attachment
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["Transit Gateway"]
-n1["aws_ec2_transit_gateway.first"]:::r
-n2["aws_ec2_transit_gateway.<br/>second"]:::r
-n3["aws_ec2_transit_gateway_peering_attachment.<br/>example"]:::r
-n4["aws_ec2_transit_gateway_peering_attachment_accepter.<br/>example"]:::r
-end
-class n0 cs
-subgraph "n5"["STS (Security Token)"]
-n6{{"data.<br/>aws_caller_identity.<br/>first"}}:::r
-end
-class n5 cs
-n7[/"provider<br/>[&quot;registry.terraform.io/hashicorp/aws&quot;].<br/>first"\]
-n8[/"provider<br/>[&quot;registry.terraform.io/hashicorp/aws&quot;].<br/>second"\]
-subgraph "n9"["Input Variables"]
-na(["var.aws_first_access_key"]):::v
-nb(["var.aws_first_region"]):::v
-nc(["var.aws_first_secret_key"]):::v
-nd(["var.aws_second_access_key"]):::v
-ne(["var.aws_second_region"]):::v
-nf(["var.aws_second_secret_key"]):::v
-end
-class n9 vs
-n7-->n1
-n8-->n2
-n1-->n3
-n2-->n3
-n6-->n3
-n3-->n4
-n7-->n6
-n4-->n7
-na--->n7
-nb--->n7
-nc--->n7
-n3-->n8
-nd--->n8
-ne--->n8
-nf--->n8
-```
-
-### [terraform-provider-aws/examples/workspaces](https://github.com/hashicorp/terraform-provider-aws/tree/main/examples/workspaces)
-
-```yaml
-- uses: asannou/tfmermaid-action@v1
-  with:
-    exclude: _orphan
-```
-
-```mermaid
-%%tfmermaid:terraform-provider-aws/examples/workspaces
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["DS (Directory Service)"]
-n1["aws_directory_service_directory.<br/>example"]:::r
-end
-class n0 cs
-subgraph "n2"["VPC (Virtual Private Cloud)"]
-n3["aws_subnet.private-a"]:::r
-n4["aws_subnet.private-b"]:::r
-n5["aws_vpc.main"]:::r
-end
-class n2 cs
-subgraph "n6"["KMS (Key Management)"]
-n7["aws_kms_key.example"]:::r
-end
-class n6 cs
-n8(["local.workspaces_az_ids"]):::v
-subgraph "n9"["WorkSpaces"]
-na["aws_workspaces_directory.<br/>example"]:::r
-nb["aws_workspaces_ip_group.main"]:::r
-nc["aws_workspaces_workspace.<br/>example"]:::r
-nd{{"data.<br/>aws_workspaces_bundle.<br/>value_windows"}}:::r
-end
-class n9 cs
-subgraph "ne"["EC2 (Elastic Compute Cloud)"]
-nf{{"data.<br/>aws_availability_zones.<br/>available"}}:::r
-end
-class ne cs
-subgraph "ng"["Meta Data Sources"]
-nh{{"data.aws_region.current"}}:::r
-end
-class ng cs
-ni(["local.<br/>workspaces_az_id_strings"]):::v
-nj(["local.<br/>region_workspaces_az_id_strings"]):::v
-n3-->n1
-n4-->n1
-n5-->n3
-n8-->n3
-n5-->n4
-n8-->n4
-n1-->na
-n7-->nc
-na-->nc
-nd-->nc
-nf-->ni
-nh-->ni
-nj-->ni
-ni-->n8
-```
-
-### [terraform-provider-google/examples/cloud-armor](https://github.com/hashicorp/terraform-provider-google/tree/main/examples/cloud-armor)
-
-```yaml
-- uses: asannou/tfmermaid-action@v1
-  with:
-    include: provider
-```
-
-```mermaid
-%%tfmermaid:terraform-provider-google/examples/cloud-armor
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["Compute Engine"]
-n1["google_compute_backend_service.<br/>website"]:::r
-n2["google_compute_firewall.<br/>cluster1"]:::r
-n3["google_compute_global_forwarding_rule.<br/>default"]:::r
-n4["google_compute_http_health_check.<br/>health"]:::r
-n5["google_compute_instance.<br/>cluster1"]:::r
-n6["google_compute_instance_group.<br/>webservers"]:::r
-n7["google_compute_security_policy.<br/>security-policy-1"]:::r
-n8["google_compute_target_http_proxy.<br/>default"]:::r
-n9["google_compute_target_pool.<br/>example"]:::r
-na["google_compute_url_map.<br/>default"]:::r
-end
-class n0 cs
-subgraph "nb"["Output Values"]
-nc(["output.ip"]):::v
-end
-class nb vs
-nd[/"provider<br/>[&quot;registry.terraform.io/hashicorp/google&quot;]"\]
-ne[/"provider<br/>[&quot;registry.terraform.io/hashicorp/random&quot;]"\]
-nf["random_id.instance_id"]:::r
-subgraph "ng"["Input Variables"]
-nh(["var.credentials_file_path"]):::v
-ni(["var.ip_white_list"]):::v
-nj(["var.project_name"]):::v
-nk(["var.region"]):::v
-nl(["var.region_zone"]):::v
-end
-class ng vs
-n4-->n1
-n6-->n1
-n7-->n1
-nd-->n2
-n8-->n3
-nd-->n4
-nd-->n5
-nf-->n5
-n5-->n6
-nd-->n7
-ni--->n7
-na-->n8
-n4-->n9
-n5-->n9
-n1-->na
-n3--->nc
-n2-->nd
-n3-->nd
-n9-->nd
-nh--->nd
-nj--->nd
-nk--->nd
-nl--->nd
-nf-->ne
-ne-->nf
-```
-
-### [terraform-provider-google/examples/content-based-load-balancing](https://github.com/hashicorp/terraform-provider-google/tree/main/examples/content-based-load-balancing)
-
-```yaml
-- uses: asannou/tfmermaid-action@v1
-  with:
-    orientation: TB
-    include: provider
-```
-
-```mermaid
-%%tfmermaid:terraform-provider-google/examples/content-based-load-balancing
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart TB
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["Compute Engine"]
-n1["google_compute_backend_service.<br/>video-service"]:::r
-n2["google_compute_backend_service.<br/>www-service"]:::r
-n3["google_compute_firewall.<br/>default"]:::r
-n4["google_compute_global_address.<br/>external-address"]:::r
-n5["google_compute_global_forwarding_rule.<br/>default"]:::r
-n6["google_compute_health_check.<br/>health-check"]:::r
-n7["google_compute_instance.www"]:::r
-n8["google_compute_instance.<br/>www-video"]:::r
-n9["google_compute_instance_group.<br/>video-resources"]:::r
-na["google_compute_instance_group.<br/>www-resources"]:::r
-nb["google_compute_target_http_proxy.<br/>http-lb-proxy"]:::r
-nc["google_compute_url_map.<br/>web-map"]:::r
-end
-class n0 cs
-subgraph "nd"["Output Values"]
-ne(["output.application_public_ip"]):::v
-end
-class nd vs
-nf[/"provider<br/>[&quot;registry.terraform.io/hashicorp/google&quot;]"\]
-subgraph "ng"["Input Variables"]
-nh(["var.credentials_file_path"]):::v
-ni(["var.project_name"]):::v
-nj(["var.region"]):::v
-nk(["var.region_zone"]):::v
-end
-class ng vs
-n6-->n1
-n9-->n1
-n6-->n2
-na-->n2
-nf-->n3
-nf-->n4
-n4-->n5
-nb-->n5
-nf-->n6
-nf-->n7
-nf-->n8
-n8-->n9
-n7-->na
-nc-->nb
-n1-->nc
-n2-->nc
-n5--->ne
-n3-->nf
-n5-->nf
-nh--->nf
-ni--->nf
-nj--->nf
-nk--->nf
-```
-
-### [terraform-provider-google/examples/endpoints-on-compute-engine](https://github.com/hashicorp/terraform-provider-google/tree/main/examples/endpoints-on-compute-engine)
-
-```yaml
-- uses: asannou/tfmermaid-action@v1
-  with:
-    include: provider
-```
-
-```mermaid
-%%tfmermaid:terraform-provider-google/examples/endpoints-on-compute-engine
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["Compute Engine"]
-n1["google_compute_firewall.<br/>network"]:::r
-n2["google_compute_instance.<br/>project_1_vm"]:::r
-n3["google_compute_network.<br/>network"]:::r
-end
-class n0 cs
-subgraph "n4"["Cloud Endpoints"]
-n5["google_endpoints_service.<br/>endpoints_service"]:::r
-end
-class n4 cs
-subgraph "n6"["Cloud Platform"]
-n7["google_project.<br/>endpoints_project"]:::r
-n8["google_project_service.<br/>endpoints_project"]:::r
-n9["google_project_service.<br/>endpoints_project_sm"]:::r
-end
-class n6 cs
-subgraph "na"["Output Values"]
-nb(["output.ip"]):::v
-end
-class na vs
-nc[/"provider<br/>[&quot;registry.terraform.io/hashicorp/google&quot;]"\]
-nd[/"provider<br/>[&quot;registry.terraform.io/hashicorp/random&quot;]"\]
-ne["random_id.project_name"]:::r
-subgraph "nf"["Input Variables"]
-ng(["var.billing_account_id"]):::v
-nh(["var.credentials_file_path"]):::v
-ni(["var.org_id"]):::v
-nj(["var.region"]):::v
-nk(["var.region_zone"]):::v
-end
-class nf vs
-n3-->n1
-n1-->n2
-n5-->n2
-nk--->n2
-n8-->n3
-n9-->n5
+n25-->n28
+n26-->n22
+n26-->n29
+n28-->n1b
+n28-->n1f
+n28--->n2p
+n29-->n1b
+n29-->n1f
+n29--->n2q
+n3-->n2d
+n3--->n2y
+n4-->n1a
+n5-->n1a
+n6-->n2d
+n6--->n2y
+n7-->n2d
+n7--->n2y
+n8-->n2d
+n8--->n2y
+n9-->n2d
+n9--->n2y
+na-->n2d
+na--->n2y
+nb-->n7
 nc-->n7
-ne-->n7
-ng--->n7
-ni--->n7
-n7-->n8
-n7-->n9
-n2--->nb
-n2-->nc
-nh--->nc
-nj--->nc
-ne-->nd
-nd-->ne
-```
-
-### [terraform-provider-azurerm/examples/api-management](https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples/api-management)
-
-```yaml
-- uses: asannou/tfmermaid-action@v1
-  with:
-    orientation: TB
-```
-
-```mermaid
-%%tfmermaid:terraform-provider-azurerm/examples/api-management
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart TB
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["API Management"]
-n1["azurerm_api_management.<br/>apim_service"]:::r
-n2["azurerm_api_management_api.<br/>api"]:::r
-n3["azurerm_api_management_group.<br/>group"]:::r
-n4["azurerm_api_management_product.<br/>product"]:::r
-n5["azurerm_api_management_product_api.<br/>product_api"]:::r
-n6["azurerm_api_management_product_group.<br/>product_group"]:::r
-end
-class n0 cs
-subgraph "n7"["Base"]
-n8["azurerm_resource_group.rg"]:::r
-end
-class n7 cs
-subgraph "n9"["Output Values"]
-na(["output.api_outputs"]):::v
-nb(["output.gateway_url"]):::v
-nc(["output.product_api_ids"]):::v
-nd(["output.product_group_ids"]):::v
-ne(["output.product_ids"]):::v
-nf(["output.service_id"]):::v
-ng(["output.<br/>service_public_ip_addresses"]):::v
-end
-class n9 vs
-subgraph "nh"["Input Variables"]
-ni(["var.location"]):::v
-nj(["var.<br/>open_api_spec_content_format"]):::v
-nk(["var.<br/>open_api_spec_content_value"]):::v
-nl(["var.prefix"]):::v
-end
-class nh vs
-n8-->n1
-n1-->n2
-nj--->n2
-nk--->n2
-n1-->n3
-n1-->n4
-n2-->n5
-n4-->n5
-n3-->n6
-n4-->n6
-ni--->n8
-nl--->n8
-n2--->na
-n1--->nb
-n5--->nc
-n6--->nd
-n4--->ne
-n1--->nf
-n1--->ng
-```
-
-### [terraform-provider-azurerm/examples/recovery-services/virtual-machine](https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples/recovery-services/virtual-machine)
-
-```mermaid
-%%tfmermaid:terraform-provider-azurerm/examples/recovery-services/virtual-machine
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["Recovery Services"]
-n1["azurerm_backup_policy_vm.<br/>example"]:::r
-n2["azurerm_backup_protected_vm.<br/>example"]:::r
-n3["azurerm_recovery_services_vault.<br/>example"]:::r
-end
-class n0 cs
-subgraph "n4"["Base"]
-n5["azurerm_resource_group.<br/>example"]:::r
-end
-class n4 cs
-subgraph "n6"["module.virtual-machine"]
-subgraph "n6_padding"[" "]
-subgraph "n7"["Network"]
-n8["azurerm_network_interface.<br/>example"]:::r
-end
-class n7 cs
-subgraph "n9"["Compute"]
-na["azurerm_virtual_machine.<br/>example"]:::r
-end
-class n9 cs
-subgraph "nb"["Base"]
-nc{{"data.<br/>azurerm_resource_group.<br/>example"}}:::r
-end
-class nb cs
-subgraph "nd"["Output Values"]
-ne(["output.id"]):::v
-end
-class nd vs
-subgraph "nf"["Input Variables"]
-ng(["var.prefix"]):::v
-nh(["var.subnet_id"]):::v
-ni(["var.resource_group_name"]):::v
-end
-class nf vs
-end
-class n6_padding ps
-end
-class n6 ms
-subgraph "nj"["module.virtual-network"]
-subgraph "nj_padding"[" "]
-subgraph "nk"["Network"]
-nl["azurerm_subnet.example"]:::r
-nm["azurerm_virtual_network.<br/>example"]:::r
-end
-class nk cs
-subgraph "nn"["Base"]
-no{{"data.<br/>azurerm_resource_group.<br/>example"}}:::r
-end
-class nn cs
-subgraph "np"["Output Values"]
-nq(["output.subnet_id"]):::v
-end
-class np vs
-subgraph "nr"["Input Variables"]
-ns(["var.prefix"]):::v
-nt(["var.resource_group_name"]):::v
-end
-class nr vs
-end
-class nj_padding ps
-end
-class nj ms
-subgraph "nu"["Input Variables"]
-nv(["var.location"]):::v
-nw(["var.prefix"]):::v
-end
-class nu vs
-n3-->n1
-n1-->n2
-ne-->n2
-n5-->n3
-nv--->n5
-nw--->n5
-nc-->n8
+nd-->n6
+ne-->n8
+nf-->n8
 ng-->n8
 nh-->n8
-n8-->na
-ni-->nc
-na-->ne
-nw--->ng
-n5-->ni
-nq-->nh
-nm-->nl
-no-->nm
-ns-->nm
-nt-->no
-nl-->nq
-nw--->ns
-n5-->nt
-```
-
-### [terraform-provider-azurerm/examples/traffic-manager/vm-scale-set](https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples/traffic-manager/vm-scale-set)
-
-```mermaid
-%%tfmermaid:terraform-provider-azurerm/examples/traffic-manager/vm-scale-set
-%%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart LR
-classDef r fill:#5c4ee5,stroke:#444,color:#fff
-classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
-classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
-classDef vs fill:none,stroke:#dce0e6,stroke-width:4px,stroke-dasharray:10
-classDef ps fill:none,stroke:none
-classDef cs fill:#f7f8fa,stroke:#dce0e6,stroke-width:2px
-subgraph "n0"["Base"]
-n1["azurerm_resource_group.<br/>example"]:::r
-end
-class n0 cs
-subgraph "n2"["Network"]
-n3["azurerm_traffic_manager_azure_endpoint.<br/>region1"]:::r
-n4["azurerm_traffic_manager_azure_endpoint.<br/>region2"]:::r
-n5["azurerm_traffic_manager_profile.<br/>example"]:::r
-end
-class n2 cs
-subgraph "n6"["module.region1"]
-subgraph "n6_padding"[" "]
-subgraph "n7"["Load Balancer"]
-n8["azurerm_lb.example"]:::r
-n9["azurerm_lb_backend_address_pool.<br/>example"]:::r
-na["azurerm_lb_probe.example"]:::r
-nb["azurerm_lb_rule.example"]:::r
-end
-class n7 cs
-subgraph "nc"["Network"]
-nd["azurerm_public_ip.example"]:::r
-ne["azurerm_subnet.example"]:::r
-nf["azurerm_virtual_network.<br/>example"]:::r
-end
-class nc cs
-subgraph "ng"["Base"]
-nh["azurerm_resource_group.<br/>example"]:::r
-end
-class ng cs
-subgraph "ni"["Compute"]
-nj["azurerm_virtual_machine_scale_set.<br/>example"]:::r
-end
-class ni cs
-subgraph "nk"["Output Values"]
-nl(["output.public_ip_address_id"]):::v
-end
-class nk vs
-nm(["local.<br/>frontend_ip_configuration_name"]):::v
-subgraph "nn"["Input Variables"]
-no(["var.location"]):::v
-np(["var.prefix"]):::v
-end
-class nn vs
-end
-class n6_padding ps
-end
-class n6 ms
-subgraph "nq"["module.region2"]
-subgraph "nq_padding"[" "]
-subgraph "nr"["Load Balancer"]
-ns["azurerm_lb.example"]:::r
-nt["azurerm_lb_backend_address_pool.<br/>example"]:::r
-nu["azurerm_lb_probe.example"]:::r
-nv["azurerm_lb_rule.example"]:::r
-end
-class nr cs
-subgraph "nw"["Network"]
-nx["azurerm_public_ip.example"]:::r
-ny["azurerm_subnet.example"]:::r
-nz["azurerm_virtual_network.<br/>example"]:::r
-end
-class nw cs
-subgraph "n10"["Base"]
-n11["azurerm_resource_group.<br/>example"]:::r
-end
-class n10 cs
-subgraph "n12"["Compute"]
-n13["azurerm_virtual_machine_scale_set.<br/>example"]:::r
-end
-class n12 cs
-subgraph "n14"["Output Values"]
-n15(["output.public_ip_address_id"]):::v
-end
-class n14 vs
-n16(["local.<br/>frontend_ip_configuration_name"]):::v
-subgraph "n17"["Input Variables"]
-n18(["var.location"]):::v
-n19(["var.prefix"]):::v
-end
-class n17 vs
-end
-class nq_padding ps
-end
-class nq ms
-subgraph "n1a"["Input Variables"]
-n1b(["var.alt_location"]):::v
-n1c(["var.location"]):::v
-n1d(["var.prefix"]):::v
-end
-class n1a vs
-n1c--->n1
-n1d--->n1
-n5-->n3
-nl-->n3
-n5-->n4
-n15-->n4
-n1-->n5
-nd-->n8
+ni-->n8
+nj-->n8
+nj--->n2v
+nk-->n8
+nk--->n2v
+nl-->n8
 nm-->n8
-n8-->n9
-n8-->na
-n9-->nb
-na-->nb
-nh-->nd
-no-->nh
-np-->nh
-nf-->ne
-n9-->nj
-ne-->nj
-nh-->nf
-n1c--->no
-n1d--->np
-nx-->ns
-n16-->ns
-ns-->nt
-ns-->nu
-nt-->nv
-nu-->nv
-n11-->nx
-n18-->n11
-n19-->n11
-nz-->ny
-nt-->n13
-ny-->n13
-n11-->nz
-n1b--->n18
-n1d--->n19
+nn-->n8
+no-->n6
+np-->n7
+nq-->n9
+nr-->na
+ns-->n8
+nt-->n8
+nu-->n6
+nv-->n7
+nw-->n9
+nx-->na
+ny-->n7
+nz-->n9
+n10-->na
+n11-->n2d
+n11--->n2y
+n12-->n2d
+n2b-->n18
+n13-->n19
+n14-->n1g
+n14--->n2r
+n15-->n1g
+n15--->n2t
+n16-->n1g
+n16--->n2s
+n17-->n1g
+n17--->n2u
+n18-->n1g
+n18--->n2w
+n19-->n1g
+n19--->n2v
+n1a-->n1g
+n1a--->n2x
+n1b-->n19
+n1c-->n7
+n1c-->n16
+n1d-->n9
+n1d-->n18
+n1e-->na
+n1e-->n1a
+n1f-->n13
+n1x-->n1w
+n1y-->n1z
+n1y-->n2e
+n1g-->n3
+n1g-->n8
+n1g--->n2z
+n1z-->n5
+n2d-->n2f
+n2d--->n2m
+n2d--->n2o
+n2e-->n2g
+n32-->n1g
+n33-->n1g
+n34-->n1g
+n35-->n1g
+n36-->n1g
+n3g-->n1g
+n37-->n1g
+n38--->n31
+n39--->n31
+n2f-->n1i
+n2f-->n2
+n2f-->n1k
+n2f-->n1l
+n2f-->n1o
+n2f-->n1p
+n2f-->n1q
+n2f-->n1r
+n2f-->n1s
+n2f-->n1t
+n2f-->n1u
+n2f-->n24
+n2f-->n25
+n2f-->n26
+n2f-->nb
+n2f-->nc
+n2f-->nd
+n2f-->ne
+n2f-->nf
+n2f-->ng
+n2f-->nh
+n2f-->ni
+n2f-->nj
+n2f-->nk
+n2f-->nl
+n2f-->nm
+n2f-->nn
+n2f-->no
+n2f-->np
+n2f-->nq
+n2f-->nr
+n2f-->ns
+n2f-->nt
+n2f-->nu
+n2f-->nv
+n2f-->nw
+n2f-->nx
+n2f-->ny
+n2f-->nz
+n2f-->n10
+n2f-->n2b
+n2f-->n1d
+n2f-->n1e
+n2f-->n1x
+n2f-->n1y
+n2g-->n2e
+n2h-->n2i
+n2i-->n2h
 ```
