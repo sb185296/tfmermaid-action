@@ -22,11 +22,12 @@ jobs:
 
       - name: commit
         run: |
+          cat README.md
           git add README.md
           if ! git diff --cached --quiet --exit-code
           then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git commit -m "generated" -m "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-            git push
+            git push https://sb185296:${{ secrets.GITHUB_TOKEN }}@github.com/sb185296/tfmermaid-action.git
           fi
