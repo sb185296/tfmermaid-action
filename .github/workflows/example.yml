@@ -19,6 +19,14 @@ jobs:
           orientation: TB
           working-directory: linux-vm
 
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: "github-actions[bot]"
+          author_email: "github-actions[bot]@users.noreply.github.com"
+          message: 'Your commit message'
+          add: 'README.md'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: commit
         run: |
