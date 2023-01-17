@@ -125,6 +125,13 @@ jobs:
       - run: sudo apt install graphviz
       - run: terraform graph | dot -Tsvg > ../../../graph.svg
         working-directory: ./terraform-provider-aws/examples/two-tier
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: README.md
+
+
       - name: commit
         run: |
           git add README.md
