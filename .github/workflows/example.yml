@@ -18,7 +18,12 @@ jobs:
           label: linux-vm
           orientation: TB
           working-directory: linux-vm
-          
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: README.md
+
       - name: commit
         if: always()
         run: |
