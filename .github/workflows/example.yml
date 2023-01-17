@@ -10,38 +10,14 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/checkout@v3
-        with:
-          repository: hashicorp/terraform-provider-aws
-          path: terraform-provider-aws
-      - uses: actions/checkout@v3
-        with:
-          repository: hashicorp/terraform-provider-google
-          path: terraform-provider-google
-      - uses: actions/checkout@v3
-        with:
-          repository: hashicorp/terraform-provider-azurerm
-          path: terraform-provider-azurerm
+
       - run: mkdir -p $TF_PLUGIN_CACHE_DIR
       - uses: ./
         with:
           file: ${{ github.workspace }}/README.md
-          label: terraform-provider-azurerm/examples/api-management
+          label: linux-vm
           orientation: TB
-          working-directory: ./terraform-provider-azurerm/examples/api-management
-      - uses: ./
-        with:
-          file: ${{ github.workspace }}/README.md
-          label: terraform-provider-azurerm/examples/recovery-services/virtual-machine
-          working-directory: ./terraform-provider-azurerm/examples/recovery-services/virtual-machine
-      - uses: ./
-        with:
-          file: ${{ github.workspace }}/README.md
-          label: terraform-provider-azurerm/examples/traffic-manager/vm-scale-set
-          working-directory: ./terraform-provider-azurerm/examples/traffic-manager/vm-scale-set
-      - run: sudo apt install graphviz
-      - run: terraform graph | dot -Tsvg > ../../../graph.svg
-        working-directory: ./terraform-provider-aws/examples/two-tier
+          working-directory: linux-vm
 
 
       - name: commit
