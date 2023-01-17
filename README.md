@@ -1,7 +1,7 @@
 ```mermaid
 %%tfmermaid
 %%{init:{"theme":"default","themeVariables":{"lineColor":"#6f7682","textColor":"#6f7682"}}}%%
-flowchart TB
+flowchart LR
 classDef r fill:#5c4ee5,stroke:#444,color:#fff
 classDef v fill:#eeedfc,stroke:#eeedfc,color:#5c4ee5
 classDef ms fill:none,stroke:#dce0e6,stroke-width:2px
